@@ -1,4 +1,6 @@
+#! /usr/bin/env python
 __author__ = 'kent'
+
 from application import *
 #from application.controller import *
 

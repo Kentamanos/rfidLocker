@@ -28,23 +28,36 @@ class GetObject(restful.Resource):
         return {'user': marshal(user, user_fields)}
 
 class Checkout(restful.Resource):
+    # This method updates the database so that user specified with userid checks out the tool specified by toolid
+
     def get(self, userid, toolid):
+        # userid and toolid are parsed as integers, if they're not integers, a 500 status is returned
+        # TODO: Figure out better exception handling
         try:
             user_id = int(userid)
             tool_id = int(toolid)
         except ValueError:
             abort(500)
 
+        # user and tool are found in the database
         user = User.query.filter_by(id=user_id).first()
         tool = Tool.query.filter_by(id=tool_id).first()
 
+        # if one or both of the id's are not found, return a 404
+        if user is None or tool is None:
+            abort(404)
+
+        # if the tool being checked out is already checked out, return an error
         if tool.checked_out_by is not None:
             abort(400, 'Tool already checked out')
 
+        # find the tool in the list of tools the user is allowed to check out
         t = next(tool for tool in user.tools if tool.id == tool_id)
         if t is None:
+            # the tool wasn't in the list of tools the user is allowed to checkout, return am error
             abort(400)
         else:
+            # update the tool to be checked out by the user
             t.checked_out_by = user_id
             db.session.commit()
             return True
