@@ -16,6 +16,7 @@ class GetObject(restful.Resource):
     def get(self, rfid):
         user = User.query.filter_by(rfid=rfid).first()
         if user is None:
+            #Couldn't find a user with that RFID, see if it's a tool...
             tool = Tool.query.filter_by(rfid=rfid).first()
             if tool is None:
                 abort(404)
