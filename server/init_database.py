@@ -12,11 +12,12 @@ gus = User('gusRfid', 'Gus')
 db.session.add(kent)
 db.session.add(gus)
 
-domino = Tool('Domino', 'A kick ass German biscuit joiner', 'dominoRfid')
+domino = Tool('Domino', 'A kick ass German biscuit joiner', 'dominoRfid', False, False, 1)
 db.session.add(domino)
 
 pendant = Tool('MultiCAM Pendant',
-               "A delicate CNC router pendant that could have its laser and dry run buttons frickin' labeled", 'multiCamRfid')
+               "A delicate CNC router pendant that could have its laser and dry run buttons frickin' labeled",
+               'multiCamRfid', False, False, 2)
 db.session.add(pendant)
 
 db.session.commit()
