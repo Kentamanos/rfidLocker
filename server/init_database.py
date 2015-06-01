@@ -8,7 +8,7 @@ db.drop_all()
 db.create_all()
 
 kent = User('0000996368', 'Kent Bowling')
-gus = User('gusRfid', 'Gus')
+gus = User('gus', 'Gus')
 db.session.add(kent)
 db.session.add(gus)
 
@@ -24,6 +24,9 @@ db.session.commit()
 
 kent.tools.append(domino)
 kent.tools.append(pendant)
+
+gus.tools.append(domino)
+gus.tools.append(pendant)
 
 
 db.session.commit()

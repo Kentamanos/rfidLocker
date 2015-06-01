@@ -27,6 +27,7 @@ class GetObject(restful.Resource):
         user.others_checked_out = Tool.query.filter(Tool.checked_out_by != user.id).filter(Tool.checked_out_by is not None).all()
         user.available = [tool for tool in user.tools if tool.checked_out_by is None]
         db.session.add(Event(user.id, None, "User scan"))
+        db.session.commit()
         return {'user': marshal(user, user_fields)}
 
 class Checkout(restful.Resource):
@@ -120,6 +121,7 @@ class DoorStatus(restful.Resource):
             tool_id = int(toolid)
         except ValueError:
             abort(500)
+        return "closed"
 
 class OpenDoor(restful.Resource):
     def get(self, userid, toolid):
