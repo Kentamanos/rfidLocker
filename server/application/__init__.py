@@ -1,7 +1,7 @@
 __author__ = 'kent'
 
 
-from flask import Flask
+from flask import Flask, render_template
 from flask.ext import restful
 from flask.ext.sqlalchemy import SQLAlchemy
 
@@ -38,5 +38,13 @@ api.add_resource(DoorStatus, '/doorStatus/<userid>/<toolid>')
 api.add_resource(Checkin, '/checkIn/<userid>/<toolid>')
 api.add_resource(Events, '/events')
 
+@app.route('/')
+def root():
+    return render_template('application.html')
+
+
+@app.route('/<path:path>')
+def templates(path):
+    return render_template(path)
 
 #api.add_resource(ReportError, '/error')
